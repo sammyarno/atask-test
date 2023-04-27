@@ -1,0 +1,18 @@
+@use './variables';
+
+body {
+  margin: 0 auto;
+  width: 1200px;
+
+  @media screen and (max-width: 480px) {
+    width: 320px
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 480px
+  }
+
+  @media screen and (max-width: 1200px) {
+    width: 1024px
+  }
+}
