@@ -1,27 +1,14 @@
-import { MouseEvent } from "react";
-import Accordion from "../components/Accordion";
+import Content from "../components/Content";
+import Form from "../components/Form";
+import SubInfo from "../components/SubInfo";
 
 const App = (): JSX.Element => {
-
-  const handleSearchClicked = (e: MouseEvent<HTMLButtonElement>) => {
-    console.log(e.target);
-  };
-
   return (
     <>
-      <div className="form">
-        <input type="text" placeholder="Enter Username" />
-        <button type="button" onClick={handleSearchClicked}>search</button>
-      </div>
-      <div className="info">
-        <p>Showing 0 users</p>
-      </div>
+      <Form />
+      <SubInfo />
       <hr />
-      {
-        ['', '', ''].map((item, index) => (
-          <Accordion title={`example${index}`} repositories={[]} />
-        ))
-      }
+      <Content />
     </>
   );
 };

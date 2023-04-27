@@ -1,18 +1,20 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useContext, useState } from 'react';
 import { AiFillCaretDown, AiFillCaretUp, AiFillStar } from 'react-icons/ai';
+import { GithubContext } from '../context/Github';
 
 type Props = {
   title: string;
-  repositories: any[];
 };
 
 const Accordion = (props: Props): JSX.Element => {
-  const { title, repositories } = props;
+  const { title } = props;
   const [isActive, setStatus] = useState(false);
+  const context = useContext(GithubContext);
 
   const handleHeadingClicked = (e: MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     setStatus(prev => !prev);
+    context.updateRepositories(title);
   };
 
   return (
@@ -23,11 +25,18 @@ const Accordion = (props: Props): JSX.Element => {
       </div>
       <div className="content">
         {
-          repositories.map((val, index) => (
+          context.isRepoLoading && (
+            <>
+              Getting repo data
+            </>
+          )
+        }
+        {
+          !context.isRepoLoading && context.repositories.map((repo, index) => (
             <div className="repository" key={index}>
-              <p className="title">title</p>
-              <p className="description">description</p>
-              <p className="star">12 <AiFillStar /></p>
+              <p className="title">{repo.title}</p>
+              <p className="description">{repo.description}</p>
+              <p className="star">{repo.star} <AiFillStar /></p>
             </div>
           ))
         }
