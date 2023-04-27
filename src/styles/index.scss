@@ -1,18 +1,123 @@
-@use './variables';
+@use './variables' as var;
+
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
 
 body {
   margin: 0 auto;
-  width: 1200px;
+  padding: 1rem;
+  max-width: 1200px;
 
-  @media screen and (max-width: 480px) {
-    width: 320px
+  // @media screen and (max-width: 480px) {
+  //   width: 320px
+  // }
+
+  // @media screen and (min-width: 481px) and (max-width: 768px) {
+  //   width: 480px
+  // }
+
+  // @media screen and (min-width: 769px) and (max-width: 1200px) {
+  //   width: 1024px
+  // }
+}
+
+p {
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  input, button {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+
+    &:focus, &:active {
+      outline: none;
+    }
   }
 
-  @media screen and (max-width: 768px) {
-    width: 480px
+  input {
+    background-color: rgba(255, 255, 255, .25);
+    border: 1px solid lightgray;
+    padding: .75rem 1rem;
+    margin-bottom: .5rem;
+    margin-top: 0;
   }
 
-  @media screen and (max-width: 1200px) {
-    width: 1024px
+  button {
+    padding: .75rem;
+    margin: 0 auto;
+    text-transform: capitalize;
+    font-weight: bold;
+    border: none;
+    color: var.$medium-accent;
+    background-color: var.$dark-bg;
+  } 
+}
+
+.info {
+  font-style: italic;
+  font-size: .75rem;
+  color: var.$light-accent;
+  padding: .5rem 0;
+}
+
+.accordion {
+  &.inactive {
+    .content {
+      height: 0;
+      padding: 0;
+    }
+  }
+
+  .heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .75rem;
+    background-color: var.$dark-bg;
+  }
+
+  .content {
+    max-height: 10rem;
+    padding: .75rem 0;
+    transition: height .3s;
+    overflow: scroll;
+
+    .repository {
+      position: relative;
+      background-color: rgba(40, 150, 90, 0.6);
+      padding: .25rem .75rem;
+
+      .title {
+        font-size: 1.1rem;
+        font-weight: bold;
+      }
+
+      .star {
+        position: absolute;
+        top: .5rem;
+        right: .75rem;
+        display: flex;
+        align-items: center;
+        gap: .25rem;
+        font-size: .75rem;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
   }
 }
