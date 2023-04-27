@@ -8,6 +8,7 @@ type GithubProps = {
   users: UserItem[];
   repositories: RepositoryItem[];
   username: string;
+  selectedUser: string;
   updateUsername: (name: string) => void,
   updateUsers: () => void,
   updateRepositories: (name: string) => void,
@@ -19,6 +20,7 @@ const initialValue: GithubProps = {
   users: [],
   repositories: [],
   username: '',
+  selectedUser: '',
   updateUsername: (name = '') => {},
   updateUsers: () => {},
   updateRepositories: (name = '') => {},
@@ -32,6 +34,7 @@ const GithubProvider = ({ children }: any) => {
   const [users, setUsers] = useState<UserItem[]>([]);
   const [isUserLoading, setUserLoading] = useState(false);
   const [isRepoLoading, setRepoLoading] = useState(false);
+  const [selectedUser, setSelectedUser] = useState('');
   const [repositories, setRepositories] = useState<RepositoryItem[]>([]);
   const [username, setUsername] = useState('');
 
@@ -58,6 +61,7 @@ const GithubProvider = ({ children }: any) => {
     
   const handleRepositoriesUpdated = useCallback(
     async (name = '') => {
+      setSelectedUser(name);
       setRepoLoading(true);
       const res = await octokit.request(`GET /users/${name}/repos`, {
         username: name,
@@ -71,11 +75,11 @@ const GithubProvider = ({ children }: any) => {
   );
  
   const finalContextValue: GithubProps = useMemo(() => ({
-    users, repositories, username, isRepoLoading, isUserLoading,
+    users, repositories, username, isRepoLoading, isUserLoading, selectedUser,
     updateUsername: handleUsernameUpdated,
     updateUsers: handeUsersUpdated,
     updateRepositories: handleRepositoriesUpdated,
-  }), [users, repositories, username, isRepoLoading, isUserLoading, handleUsernameUpdated, handeUsersUpdated, handleRepositoriesUpdated]);
+  }), [users, repositories, username, selectedUser, isRepoLoading, isUserLoading, handleUsernameUpdated, handeUsersUpdated, handleRepositoriesUpdated]);
 
   return (
     <GithubContext.Provider value={finalContextValue}>
